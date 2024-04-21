@@ -1,42 +1,176 @@
+<div class="logo-signup">
+  <div>
+    <img style="height: 48px" src="../../assets/img/join.logo-dark.png" />
+  </div>
+  <div class="text-signup">
+    <div class="m-16">Not a Join user?</div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="submit-button"
+      (click)="showSignupCard()"
+      >
+      Sign up
+    </button>
+  </div>
+</div>
 
-    <div class="login-card">
-      <mat-card class="login-card-div">
-        <form (ngSubmit)="login()">
-          <mat-card-header>
-            <mat-card-title>Login</mat-card-title>
-          </mat-card-header>
-  
-          <div class="login-input-fields">
-            <mat-form-field>
-              <mat-label>Username</mat-label>
-              <input
-                matInput
-                type="text"
-                name="username"
-                ngModel="username"
-                required
-              />
-            </mat-form-field>
-  
-            <mat-form-field>
-              <mat-label>Password</mat-label>
-              <input
-                matInput
-                type="password"
-                name="password"
-                ngModel="password"
-                required
-              />
-            </mat-form-field>
-          </div>
-  
-          <mat-card-actions>
-            <button mat-raised-button color="primary" type="submit">Login</button>
-            <button mat-raised-button color="primary" type="submit">Guest Login</button>
-          </mat-card-actions>
-        </form>
-        <div class="warning-message" *ngIf="failedLogin">
-          Login failed, please try again!
-        </div>
-      </mat-card>
+@if (loginCard) {
+<div class="login-card" [@fadeInOut]>
+  <mat-card class="login-card-div">
+    <form (ngSubmit)="login()">
+      <mat-card-header class="m-32">
+        <mat-card-title class="login-headline p-32">Log in</mat-card-title>
+      </mat-card-header>
+
+      <div class="login-input-fields">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            type="text"
+            name="username"
+            ngModel="username"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            name="password"
+            ngModel="password"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <div class="login-input-fields" style="padding: 0px 16px 16px 16px;">
+        <mat-checkbox class="" ngModel="rememberMe" >Remember me</mat-checkbox>
+        <span class="" (click)="showForgotPasswordCard()">Forgot my password</span>
+      </div>
+
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+        >
+          Login
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="guest-button"
+        >
+          Guest Login
+        </button>
+      </mat-card-actions>
+    </form>
+    <div class="warning-message">
+      @if (failedLogin) {
+        <div>Login failed, please try again!</div>
+        }   
+       </div>
+  </mat-card>
+</div>
+} @if (signupCard) {
+<div class="login-card" [@fadeInOut]>
+  <mat-card class="login-card-div">
+    <form (ngSubmit)="login()">
+      <mat-icon fontIcon="arrow_back" (click)="showLoginCard()"></mat-icon>
+      <mat-card-header class="m-32">
+        <mat-card-title class="login-headline p-32">Sign up</mat-card-title>
+      </mat-card-header>
+
+      <div class="login-input-fields">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            type="text"
+            name="username"
+            ngModel="username"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" ngModel="email" required />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            name="password"
+            ngModel="password"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+        >
+          Sign up
+        </button>
+      </mat-card-actions>
+    </form>
+    <div class="warning-message">
+      @if (wrongEntries) {
+        <div>Entries are not valid</div>
+        }
     </div>
+  </mat-card>
+</div>
+} @if (forgotPasswordCard) {
+<div class="login-card" [@fadeInOut]>
+  <mat-card class="login-card-div">
+    <form (ngSubmit)="login()">
+      <mat-icon fontIcon="arrow_back" (click)="showLoginCard()"></mat-icon>
+      <mat-card-header class="m-32">
+        <mat-card-title class="login-headline p-32"
+          >I forgot my password</mat-card-title
+        >
+      </mat-card-header>
+      <div style="padding: 0px 32px; text-align: center">
+        Don't worry! We will send you an email with the instructions to reset
+        you password.
+      </div>
+      <div class="login-input-fields">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" ngModel="email" required />
+        </mat-form-field>
+      </div>
+
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+        >
+          Reset Password
+        </button>
+      </mat-card-actions>
+    </form>
+    <div class="warning-message">
+      @if (wrongEmail) {
+      <div>Email adress doesn't exist</div>
+      }
+    </div>
+  </mat-card>
+</div>
+}
