@@ -5,7 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
+import { LocalStorageService } from 'angular-web-storage';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   animate,
   state,
@@ -13,6 +15,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+
 
 @Component({
   selector: 'app-login',
@@ -24,7 +27,9 @@ import {
     MatInputModule,
     MatIconModule,
     MatCheckboxModule,
-    FormsModule
+    // LocalStorageService,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -48,9 +53,19 @@ export class LoginComponent {
   loginCard: boolean = true;
   signupCard: boolean = false;
   forgotPasswordCard: boolean = false;
-  wrongEmail: boolean = true;
-  wrongEntries: boolean = true;
-  rememberMe: boolean = true;
+  wrongEmail: boolean = false;
+  wrongEntries: boolean = false;
+  rememberMe: boolean = false;
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  passwordFormControl = new FormControl('', [Validators.required]);
+
+
+  constructor(
+    // private local: LocalStorageService,
+    private router: Router,
+  ) {
+  }
+
 
   /**
    * Communication to backend
@@ -66,7 +81,7 @@ export class LoginComponent {
     //   );
     //   this.loading = false;
     //   localStorage.setItem('token', resp['token']);
-    //   this.router.navigateByUrl('/todos');
+      this.router.navigateByUrl('/scrumboard');
     // } catch (e) {
     //   this.loading = false;
     //   this.failedLogin = true;

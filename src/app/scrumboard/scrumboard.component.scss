@@ -1,0 +1,10 @@
+.menu-header {
+    display: grid;
+    grid-template-columns: 225px auto;
+    grid-template-rows: auto auto;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+}

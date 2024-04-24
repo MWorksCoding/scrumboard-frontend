@@ -1,0 +1,51 @@
+.menu {
+    height: 100vh;
+    background-color: #2a3647;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px;
+}
+
+@mixin display-column($d: flex, $fd: column) {
+    display: $d;
+    flex-direction: $fd;
+    gap: 32px;
+}
+
+@mixin menu-links() {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #94999f;
+
+    -webkit-transition: color 0.5s;
+    transition: 0.5 ease;
+}
+
+
+.menu-links {
+    @include display-column();
+    font-size: 24px;
+    a {
+        @include menu-links();
+
+        &:hover{
+            color: #ffffff;
+        }
+    }
+}
+
+.privacy-legal-notice {
+    @include display-column();
+    font-size: 18px;
+    a {
+        @include menu-links();
+
+        &:hover{
+            color: #ffffff;
+            
+        }
+    }
+}

@@ -1,0 +1,40 @@
+<div class="board">
+
+
+    <div class="headline-searchbar-button">
+        <div class="headline">
+            <h1>Board</h1>
+        </div>
+        <mat-card class="searchbar-button">
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="add-task-button" (click)="openDialog()">
+                Add Task
+            </button>
+        </mat-card>
+    </div>
+    <div class="board-grid">
+        <div class="header-icon">
+            <h1>To do</h1>
+            <mat-icon fontIcon="add" class="numbers-icons" (click)="openDialog()"></mat-icon>
+        </div>
+        <div class="header-icon">
+            <h1>In Progress</h1>
+            <mat-icon fontIcon="add" class="numbers-icons" (click)="openDialog()"></mat-icon>
+        </div>
+        <div class="header-icon">
+            <h1>Awaiting Feedback</h1>
+            <mat-icon fontIcon="add" class="numbers-icons" (click)="openDialog()"></mat-icon>
+        </div>
+        <div class="header-icon">
+            <h1>Done</h1>
+            <mat-icon fontIcon="add" class="numbers-icons" (click)="openDialog()"></mat-icon>
+        </div>
+        <mat-card class="board-column"></mat-card>
+        <mat-card class="board-column"></mat-card>
+        <mat-card class="board-column"></mat-card>
+        <mat-card class="board-column"></mat-card>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="summary">
+
+    <div class="greeting">
+        <h1>Good morning, Guest!</h1>
+    </div>
+
+    <div>
+        <h1>Summary -
+            Everything in a nutshell</h1>
+    </div>
+
+    <div class="overview-greeting">
+        <div class="overview-1">
+            <mat-card class="task-feedback" (click)="redirectToDashboard()">
+                <mat-card-title class="numbers-icons">0</mat-card-title>
+                <mat-card-title>Tasks in Board</mat-card-title>
+            </mat-card>
+            <mat-card class="task-feedback" (click)="redirectToDashboard()">
+                <mat-card-title class="numbers-icons">0</mat-card-title>
+                <mat-card-title>Tasks in progress</mat-card-title>
+            </mat-card>
+            <mat-card class="task-feedback" (click)="redirectToDashboard()">
+                <mat-card-title class="numbers-icons">0</mat-card-title>
+                <mat-card-title>Awaiting feedback</mat-card-title>
+            </mat-card>
+        </div>
+        <div class="overview-2">
+            <mat-card class="deadline" (click)="redirectToDashboard()">
+                <mat-card-title class="numbers-icons">0</mat-card-title>
+                <mat-card-title>No upcoming deadline</mat-card-title>
+            </mat-card>
+        </div>
+        <div class="overview-3">
+            <mat-card class="todo-done" (click)="redirectToDashboard()">
+                <mat-icon fontIcon="edit" class="numbers-icons"></mat-icon>
+                <div class="task-feedback-column">
+                    <mat-card-title class="numbers-icons">0</mat-card-title>
+                    <mat-card-title>To-do</mat-card-title>
+                </div>
+            </mat-card>
+            <mat-card class="todo-done" (click)="redirectToDashboard()">
+                <mat-icon fontIcon="done" class="numbers-icons"></mat-icon>
+                <div class="task-feedback-column">
+                    <mat-card-title class="numbers-icons">0</mat-card-title>
+                    <mat-card-title>Done</mat-card-title>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+
+
+
+
+
+</div>
