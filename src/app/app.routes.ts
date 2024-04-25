@@ -9,10 +9,12 @@ import { LegalNoticeComponent } from './scrumboard/legal-notice/legal-notice.com
 import { PrivacyComponent } from './scrumboard/privacy/privacy.component';
 import { AboutComponent } from './scrumboard/about/about.component';
 import { UserSettingsComponent } from './scrumboard/user-settings/user-settings.component';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'logout', component: LogoutComponent },
     {
         path: 'scrumboard', component: ScrumboardComponent,
         children: [

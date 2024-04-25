@@ -5,8 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { LocalStorageService } from 'angular-web-storage';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   animate,
@@ -27,9 +27,8 @@ import {
     MatInputModule,
     MatIconModule,
     MatCheckboxModule,
-    // LocalStorageService,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -56,13 +55,13 @@ export class LoginComponent {
   wrongEmail: boolean = false;
   wrongEntries: boolean = false;
   rememberMe: boolean = false;
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordFormControl = new FormControl('', [Validators.required]);
+  // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  // passwordFormControl = new FormControl('', [Validators.required]);
 
 
   constructor(
-    // private local: LocalStorageService,
     private router: Router,
+    private auth: AuthService,
   ) {
   }
 
@@ -74,20 +73,21 @@ export class LoginComponent {
   async login() {
     this.failedLogin = false;
     this.loading = true;
-    // try {
-    //   let resp: any = await this.auth.loginWithUsernameAndPassword(
-    //     this.username,
-    //     this.password
-    //   );
-    //   this.loading = false;
-    //   localStorage.setItem('token', resp['token']);
-      this.router.navigateByUrl('/scrumboard');
-    // } catch (e) {
-    //   this.loading = false;
-    //   this.failedLogin = true;
-    //   console.error(e);
-    // }
+    try {
+      let resp: any = await this.auth.loginWithUsernameAndPassword(
+        this.username,
+        this.password
+      );
+      this.loading = false;
+      localStorage.setItem('token', resp['token']);
+      this.router.navigateByUrl('/scrumboard/summary');
+    } catch (e) {
+      this.loading = false;
+      this.failedLogin = true;
+      console.error(e);
+    }
   }
+
 
   /**
    * shows the loading screen
@@ -99,6 +99,7 @@ export class LoginComponent {
     }
   }
 
+
   /**
    * hides the loading screen
    */
@@ -109,6 +110,10 @@ export class LoginComponent {
     }
   }
 
+
+  /**
+   * shows sign up card, hides all other cards
+   */
   showSignupCard() {
     this.loginCard = false;
     this.forgotPasswordCard = false;
@@ -117,6 +122,10 @@ export class LoginComponent {
     }, 500);
   }
 
+
+  /**
+   * shows login card, hides all other cards
+   */
   showLoginCard() {
     this.signupCard = false;
     this.forgotPasswordCard = false;
@@ -125,6 +134,10 @@ export class LoginComponent {
     }, 500);
   }
 
+
+  /**
+   * shows forgot password card, hides all other cards
+   */
   showForgotPasswordCard() {
     this.signupCard = false;
     this.loginCard = false;

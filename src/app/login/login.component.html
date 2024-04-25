@@ -1,4 +1,4 @@
-<div class="logo-signup">
+<div class="logo-signup" [@fadeInOut]>
   <div>
     <img style="height: 48px" src="../../assets/img/join.logo-dark.png" />
   </div>
@@ -21,18 +21,44 @@
       </mat-card-header>
 
       <div class="login-input-fields">
-        <mat-form-field>
+        <!-- <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput type="email" name="email" [formControl]="emailFormControl" placeholder="Please enter your email adress" title="Please enter your email adress">
+        </mat-form-field> -->
+
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            type="text"
+            name="username"
+            [(ngModel)]="username"
+            required
+            placeholder="Please enter your email adress"
+            title="Please enter your email adress"
+          />
         </mat-form-field>
+
+        <!-- <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" name="password" [formControl]="passwordFormControl" placeholder="Please enter your password" title="Please enter your password">
+        </mat-form-field> -->
 
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput type="password" name="password" [formControl]="passwordFormControl" placeholder="Please enter your password" title="Please enter your password">
+          <input
+            matInput
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Please enter your password"
+            title="Please enter your password"
+          />
         </mat-form-field>
       </div>
 
-      <div class="login-input-fields" style="padding: 0px 16px 16px 16px;">
+      <!-- <div class="login-input-fields" style="padding: 0px 16px 16px 16px;">
         @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
           <mat-error>Please enter a valid email address</mat-error>
         }
@@ -45,7 +71,7 @@
         @if (passwordFormControl.hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
         }
-      </div>
+      </div> -->
 
 
       <div class="login-input-fields" style="padding: 0px 16px 16px 16px;">

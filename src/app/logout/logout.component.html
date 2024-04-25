@@ -1,0 +1,23 @@
+<div class="logo-signup" [@fadeInOut]>
+  <div>
+    <img style="height: 48px" src="../../assets/img/join.logo-dark.png" />
+  </div>
+</div>
+
+<div class="login-card" [@fadeInOut]>
+  <mat-card class="login-card-div">
+    <mat-card-header class="m-32">
+      <mat-card-title class="login-headline p-32">Logged out</mat-card-title>
+    </mat-card-header>
+
+    <div class="login-input-fields" style="padding: 0px 16px 16px 16px">
+      <span>Not finished?</span
+      >
+    </div>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" class="submit-button" (click)="showLogin()">
+        Login again
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
