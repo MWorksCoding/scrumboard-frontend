@@ -29,7 +29,6 @@ export class SummaryComponent {
     this.getDataFromBackend();
   }
 
-
     /**
    * updating material design tabledata with loaded data, activate paginatior and sort function
    */
@@ -47,14 +46,13 @@ export class SummaryComponent {
    */
   loadTodos() {
     const url = environment.baseUrl + '/scrumboard/summary/';
-    let headers = new HttpHeaders();
-    headers = headers.set(
-      'Authorization',
-      'Token' + localStorage.getItem('token')
-    ); // get token from local storage
+    // let headers = new HttpHeaders(); // wird nicht benötigt, da der token mit dem http interceptor gesendet wird!
+    // // headers = headers.set(
+    // //   'Authorization',
+    // //   'Token' + localStorage.getItem('token')
+    // // ); // get token from local storage
     return lastValueFrom(this.http.get(url));
   }
-
 
   redirectToDashboard() {
     this.router.navigateByUrl('/scrumboard/board');
