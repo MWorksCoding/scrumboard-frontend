@@ -69,6 +69,10 @@ export class AddTaskComponent {
     this.fetchUsers();
   }
 
+
+  /**
+   * Get all categories from backend
+   */
   async fetchCategories() {
     try {
       const url = environment.baseUrl + '/categories/';
@@ -79,6 +83,10 @@ export class AddTaskComponent {
     }
   }
   
+
+  /**
+   * Get all available users from backend
+   */
   async fetchUsers() {
     try {
       const url = environment.baseUrl + '/users/';
@@ -89,6 +97,10 @@ export class AddTaskComponent {
     }
   }
 
+
+  /**
+   * Post a new Task to backend
+   */
   async addTask() {
     console.log(
       'this.title:',
@@ -116,7 +128,7 @@ export class AddTaskComponent {
       const response = await lastValueFrom(this.http.post(url, body));
       this.clearInputFields();
     } catch (error) {
-      console.error('Error creating todo:', error);
+      console.error('Error creating a new task:', error);
     }
   }
 
