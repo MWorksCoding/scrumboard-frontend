@@ -23,7 +23,7 @@ export class SummaryComponent {
   }
 
   /**
-   * Initialization / activate dark mode
+   * Initialization
    */
   ngOnInit() {
     this.getDataFromBackend();

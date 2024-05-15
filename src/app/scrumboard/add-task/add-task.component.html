@@ -1,70 +1,104 @@
 <div class="add-task">
-    <div class="header-icon">
-        <h1>Add Task</h1>
-    </div>
+  <div class="header-icon">
+    <h1>Add Task</h1>
+  </div>
+  <form (ngSubmit)="addTask()">
     <mat-card class="input-grid">
-        <div class="grid-left-right">
-            <mat-form-field>
-                <mat-label>Title</mat-label>
-                <input matInput type="text" name="title" placeholder="Enter a title" title="Enter a title" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Description</mat-label>
-                <input matInput type="text" name="description" placeholder="Enter a description"
-                    title="Enter a description" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Category</mat-label>
-                <mat-select required>
-                    @for (food of foods; track food) {
-                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-        </div>
+      <div class="grid-left-right">
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            type="text"
+            name="title"
+            [(ngModel)]="title"
+            placeholder="Enter a title"
+            title="Enter a title"
+            required
+            maxlength="100"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input
+            matInput
+            type="text"
+            name="description"
+            [(ngModel)]="description"
+            placeholder="Enter a description"
+            title="Enter a description"
+            required
+            maxlength="300"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select name="category" [(ngModel)]="category" required>
+            @for (category of categories; track category) {
+            <mat-option [value]="category.name">{{ category.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-        <div class="grid-left-right">
-            <mat-form-field>
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker" [formControl]="date" required>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+      <div class="grid-left-right">
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="date"
+            name="due_date"
+            required
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Priority</mat-label>
-                <mat-select matNativeControl required>
-                    <mat-option value="high">
-                        <mat-icon>keyboard_double_arrow_up</mat-icon>
-                        High
-                    </mat-option>
-                    <mat-option value="medium">
-                        <mat-icon>density_large</mat-icon>
-                        Medium
-                    </mat-option>
-                    <mat-option value="low">
-                        <mat-icon>keyboard_double_arrow_down</mat-icon>
-                        Low
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field>
+          <mat-label>Priority</mat-label>
+          <mat-select matNativeControl name="priority" [(ngModel)]="priority" required>
+            <mat-option value="high">
+              <mat-icon>keyboard_double_arrow_up</mat-icon>
+              High
+            </mat-option>
+            <mat-option value="medium">
+              <mat-icon>density_large</mat-icon>
+              Medium
+            </mat-option>
+            <mat-option value="low">
+              <mat-icon>keyboard_double_arrow_down</mat-icon>
+              Low
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Assigned to</mat-label>
-                <mat-select required>
-                    @for (user of users; track user) {
-                    <mat-option [value]="user.value">{{user.viewValue}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-        </div>
+        <mat-form-field>
+          <mat-label>Assigned to</mat-label>
+          <mat-select name="assigned_to" [(ngModel)]="user" required>
+            @for (user of users; track user) {
+            <mat-option [value]="user.first_name">{{ user.first_name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
     </mat-card>
-    <div class="header-icon" style="margin-top: 32px;">
-        <button mat-raised-button color="primary" type="submit" class="create-task-button">
-            Create Task
-        </button>
-        <button mat-raised-button color="primary" class="cancel-button">
-            Clear all entries
-        </button>
+    <div class="header-icon" style="margin-top: 32px">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="create-task-button"
+      >
+        Create Task
+      </button>
+
+      <button mat-raised-button color="primary" class="cancel-button">
+        Clear all entries
+      </button>
     </div>
+  </form>
 </div>
