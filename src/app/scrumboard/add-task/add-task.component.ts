@@ -49,15 +49,16 @@ const moment = _rollupMoment || _moment;
 })
 export class AddTaskComponent {
   // date = new FormControl(moment(new Date()).format('DD.MM.YYYY'));
-  date = new FormControl(new Date());
-  categories: { id: number, name: string, color: string }[] = [];
-  users: { id: number, first_name: string, last_name: string, username: string, color: string }[] = [];
+  date = new FormControl();
+  categories: { id: number, name: string, color: string, email: any, phone:any }[] = [];
+  // users: { id: number, first_name: string, last_name: string, username: string, color: string }[] = [];
+  users: { id: number, first_name: string, last_name: string, username: string, color: string , email: string , phone: string }[] = [];
 
   title = '';
   description = '';
-  category = '';
+  category: any = '';
   priority = '';
-  user = '';
+  user: any = '';
 
   constructor(private http: HttpClient) {}
 
@@ -67,6 +68,22 @@ export class AddTaskComponent {
   ngOnInit() {
     this.fetchCategories();
     this.fetchUsers();
+    this.fetchTasks()
+  }
+
+
+  /**
+   * Get all tasks from backend
+   */
+  async fetchTasks() {
+    try {
+      const url = environment.baseUrl + '/add-task/';
+      const response = await lastValueFrom(this.http.get(url));
+      let tasks = response as any[];
+      console.log('tasks' , tasks)
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   }
 
 
@@ -92,6 +109,7 @@ export class AddTaskComponent {
       const url = environment.baseUrl + '/users/';
       const response = await lastValueFrom(this.http.get(url));
       this.users = response as any[];
+      console.log('this.users', this.users)
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -112,17 +130,19 @@ export class AddTaskComponent {
       'priority:',
       this.priority,
       'assigned_to:',
-      this.user
+      this.user,
+      'due_date',
+      moment(this.date.value).format('YYYY-MM-DD')
     );
     try {
       const url = environment.baseUrl + '/add-task/';
       const body = {
         title: this.title,
         description: this.description,
-        due_date: this.date.value,
+        due_date: moment(this.date.value).format('YYYY-MM-DD'),
         category: this.category,
         priority: this.priority,
-        assigned_to: this.user,
+        assigned_to: [this.user.id] 
       };
       console.log('body', body);
       const response = await lastValueFrom(this.http.post(url, body));
@@ -135,5 +155,9 @@ export class AddTaskComponent {
   clearInputFields() {
     this.title = '';
     this.description = '';
+    this.category = '';
+    this.priority = '';
+    this.user = '';
+    this.date.reset();
   }
 }
