@@ -1,60 +1,147 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import {
+  RouterOutlet,
+  RouterLink,
+  RouterLinkActive,
+  Router,
+} from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environments';
+import moment from 'moment';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [MatIconModule, RouterOutlet, RouterLink, RouterLinkActive, MatCardModule],
+  imports: [
+    MatIconModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatCardModule,
+  ],
   templateUrl: './summary.component.html',
-  styleUrl: './summary.component.scss'
+  styleUrl: './summary.component.scss',
 })
 export class SummaryComponent {
-  todos: any = [];
+  tasks: any[] = [];
   error: string = '';
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-  ) {
-  }
+  todoCount: number = 0;
+  inProgressCount: number = 0;
+  awaitFeedbackCount: number = 0;
+  doneCount: number = 0;
+  nearestDueDate: string | null = null;
+  nearestDueDatePriority: string | null = null;
+  highestPriorityCount: number = 0;
+  greeting: string = 'Hello';
+
+  constructor(private router: Router, private http: HttpClient) {}
 
   /**
    * Initialization
    */
   ngOnInit() {
-    this.getDataFromBackend();
+    this.getTasks();
+    this.setGreeting();
   }
 
-    /**
-   * updating material design tabledata with loaded data, activate paginatior and sort function
+  /**
+   * Get all tasks from backend
    */
-    async getDataFromBackend() {
-      try {
-        this.todos = await this.loadTodos();
-        console.log('todos:' , this.todos)
-      } catch (e) {
-        this.error = 'Error while loading';
+  async getTasks() {
+    try {
+      const url = environment.baseUrl + '/tasks/';
+      const response = await lastValueFrom(this.http.get(url));
+      this.tasks = response as any[];
+      console.log('tasks:', this.tasks);
+      this.countStatus();
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
+
+  /**
+   * Sort tasks by status
+   */
+  countStatus() {
+    if (this.tasks) {
+      this.todoCount = this.tasks.filter(
+        (task) => task.status === 'todo'
+      ).length;
+      this.inProgressCount = this.tasks.filter(
+        (task) => task.status === 'in-progress'
+      ).length;
+      this.awaitFeedbackCount = this.tasks.filter(
+        (task) => task.status === 'await-feedback'
+      ).length;
+      this.doneCount = this.tasks.filter(
+        (task) => task.status === 'done'
+      ).length;
+      this.findNearestdate();
+    }
+  }
+
+
+
+  findNearestdate() {
+    let nearestDate: any = null;
+    let priorityCounts: { [key: string]: number } = { high: 0, medium: 0, low: 0 };
+
+    this.tasks.forEach(task => {
+      const dueDate = new Date(task.due_date);
+      const today = new Date();
+  
+      if (!nearestDate || (dueDate > today && dueDate < nearestDate)) {
+        nearestDate = dueDate;
+        this.nearestDueDate = task.due_date;
+        // Reset the priority counts for the new nearest date
+        priorityCounts = { high: 0, medium: 0, low: 0 };
       }
+  
+      if (nearestDate && task.due_date === this.nearestDueDate) {
+        priorityCounts[task.priority] = (priorityCounts[task.priority] || 0) + 1;
+      }
+    });
+
+    if (priorityCounts['high'] > 0) {
+      this.nearestDueDatePriority = 'high';
+      this.highestPriorityCount = priorityCounts['high'];
+    } else if (priorityCounts['medium'] > 0) {
+      this.nearestDueDatePriority = 'medium';
+      this.highestPriorityCount = priorityCounts['medium'];
+    } else if (priorityCounts['low'] > 0) {
+      this.nearestDueDatePriority = 'low';
+      this.highestPriorityCount = priorityCounts['low'];
     }
 
-      /**
-   * load data with an get request, sending a token coming from the local storage
-   */
-  loadTodos() {
-    const url = environment.baseUrl + '/scrumboard/summary/';
-    // let headers = new HttpHeaders(); // wird nicht benötigt, da der token mit dem http interceptor gesendet wird!
-    // // headers = headers.set(
-    // //   'Authorization',
-    // //   'Token' + localStorage.getItem('token')
-    // // ); // get token from local storage
-    return lastValueFrom(this.http.get(url));
+    this.nearestDueDate = moment(this.nearestDueDate).format('DD.MM.YYYY');
+    
+    console.log('nearestDueDate:', this.nearestDueDate);
+    console.log('nearestDueDatePriority:', this.nearestDueDatePriority);
+    console.log('highestPriorityCount:', this.highestPriorityCount);
   }
+
 
   redirectToDashboard() {
     this.router.navigateByUrl('/scrumboard/board');
+  }
+
+  setGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour >= 5 && hour < 12) {
+      this.greeting = 'Good morning';
+    } else if (hour >= 12 && hour < 18) {
+      this.greeting = 'Good afternoon';
+    } else {
+      this.greeting = 'Good evening';
+    }
+  }
+
+  getUsername() {
+    return localStorage.getItem('username');
   }
 }

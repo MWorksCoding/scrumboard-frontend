@@ -77,7 +77,7 @@ export class AddTaskComponent {
    */
   async fetchTasks() {
     try {
-      const url = environment.baseUrl + '/add-task/';
+      const url = environment.baseUrl + '/tasks/';
       const response = await lastValueFrom(this.http.get(url));
       let tasks = response as any[];
       console.log('tasks' , tasks)
@@ -135,7 +135,7 @@ export class AddTaskComponent {
       moment(this.date.value).format('YYYY-MM-DD')
     );
     try {
-      const url = environment.baseUrl + '/add-task/';
+      const url = environment.baseUrl + '/tasks/';
       const body = {
         title: this.title,
         description: this.description,

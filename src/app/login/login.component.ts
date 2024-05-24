@@ -79,7 +79,8 @@ export class LoginComponent {
         this.password
       );
       this.loading = false;
-      localStorage.setItem('token', resp['token']);
+      localStorage.setItem('token', resp.token);
+      localStorage.setItem('username', resp.username); 
       this.router.navigateByUrl('/scrumboard/summary');
     } catch (e) {
       this.loading = false;

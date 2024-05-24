@@ -1,55 +1,70 @@
 <div class="summary">
+  <div class="greeting">
+    <h1>{{ greeting }}, {{getUsername()}}</h1>
+  </div>
 
-    <div class="greeting">
-        <h1>Good morning, Guest!</h1>
+  <div>
+    <h1>Summary - Everything in a nutshell</h1>
+  </div>
+
+  <div class="overview-greeting">
+    <div class="overview-1">
+      <mat-card class="task-feedback" (click)="redirectToDashboard()">
+        <mat-card-title class="numbers-icons">{{
+          tasks.length
+        }}</mat-card-title>
+        <mat-card-title>Tasks in Board</mat-card-title>
+      </mat-card>
+      <mat-card class="task-feedback" (click)="redirectToDashboard()">
+        <mat-card-title class="numbers-icons">{{
+          inProgressCount
+        }}</mat-card-title>
+        <mat-card-title>Tasks in progress</mat-card-title>
+      </mat-card>
+      <mat-card class="task-feedback" (click)="redirectToDashboard()">
+        <mat-card-title class="numbers-icons">{{
+          awaitFeedbackCount
+        }}</mat-card-title>
+        <mat-card-title>Awaiting feedback</mat-card-title>
+      </mat-card>
     </div>
-
-    <div>
-        <h1>Summary -
-            Everything in a nutshell</h1>
+    <div class="overview-2">
+      <mat-card class="deadline" (click)="redirectToDashboard()">
+        @if (nearestDueDatePriority == 'high') {
+        <mat-icon class="priority-high-icon">keyboard_double_arrow_up</mat-icon>
+        } @if (nearestDueDatePriority == 'medium') {
+        <mat-icon class="priority-medium-icon">density_large</mat-icon>
+        } @if (nearestDueDatePriority == 'low') {
+        <mat-icon class="priority-low-icon">keyboard_double_arrow_down</mat-icon>
+        }
+        <div class="deadline-feedback-column">
+          <mat-card-title class="numbers-icons" style="width: unset;">{{
+            highestPriorityCount
+          }}</mat-card-title>
+          <mat-card-title >{{
+            nearestDueDatePriority
+          }}</mat-card-title>
+        </div>
+        <mat-card-title>
+            {{ nearestDueDate ? nearestDueDate + ': Upcoming deadline' : 'No upcoming deadline' }}
+          </mat-card-title>
+      </mat-card>
     </div>
-
-    <div class="overview-greeting">
-        <div class="overview-1">
-            <mat-card class="task-feedback" (click)="redirectToDashboard()">
-                <mat-card-title class="numbers-icons">0</mat-card-title>
-                <mat-card-title>Tasks in Board</mat-card-title>
-            </mat-card>
-            <mat-card class="task-feedback" (click)="redirectToDashboard()">
-                <mat-card-title class="numbers-icons">0</mat-card-title>
-                <mat-card-title>Tasks in progress</mat-card-title>
-            </mat-card>
-            <mat-card class="task-feedback" (click)="redirectToDashboard()">
-                <mat-card-title class="numbers-icons">0</mat-card-title>
-                <mat-card-title>Awaiting feedback</mat-card-title>
-            </mat-card>
+    <div class="overview-3">
+      <mat-card class="todo-done" (click)="redirectToDashboard()">
+        <mat-icon fontIcon="edit" class="numbers-icons"></mat-icon>
+        <div class="task-feedback-column">
+          <mat-card-title class="numbers-icons">{{ todoCount }}</mat-card-title>
+          <mat-card-title>To-do</mat-card-title>
         </div>
-        <div class="overview-2">
-            <mat-card class="deadline" (click)="redirectToDashboard()">
-                <mat-card-title class="numbers-icons">0</mat-card-title>
-                <mat-card-title>No upcoming deadline</mat-card-title>
-            </mat-card>
+      </mat-card>
+      <mat-card class="todo-done" (click)="redirectToDashboard()">
+        <mat-icon fontIcon="done" class="numbers-icons"></mat-icon>
+        <div class="task-feedback-column">
+          <mat-card-title class="numbers-icons">{{ doneCount }}</mat-card-title>
+          <mat-card-title>Done</mat-card-title>
         </div>
-        <div class="overview-3">
-            <mat-card class="todo-done" (click)="redirectToDashboard()">
-                <mat-icon fontIcon="edit" class="numbers-icons"></mat-icon>
-                <div class="task-feedback-column">
-                    <mat-card-title class="numbers-icons">0</mat-card-title>
-                    <mat-card-title>To-do</mat-card-title>
-                </div>
-            </mat-card>
-            <mat-card class="todo-done" (click)="redirectToDashboard()">
-                <mat-icon fontIcon="done" class="numbers-icons"></mat-icon>
-                <div class="task-feedback-column">
-                    <mat-card-title class="numbers-icons">0</mat-card-title>
-                    <mat-card-title>Done</mat-card-title>
-                </div>
-            </mat-card>
-        </div>
+      </mat-card>
     </div>
-
-
-
-
-
+  </div>
 </div>

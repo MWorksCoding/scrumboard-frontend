@@ -78,7 +78,7 @@
 
         <mat-form-field>
           <mat-label>Assigned to</mat-label>
-          <mat-select name="assigned_to" [(ngModel)]="user" required [(ngModel)]="user">
+          <mat-select name="assigned_to" [(ngModel)]="user" required>
             @for (user of users; track user) {
             <mat-option [value]="user">{{ user.first_name }} {{ user.last_name }}</mat-option>
             }
