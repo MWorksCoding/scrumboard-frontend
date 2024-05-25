@@ -74,7 +74,8 @@ export class BoardComponent {
       disableClose: true,
       autoFocus: false,
       data: {
-        task: 'Task1'
+        task: 'Task1',
+        purpose: 'new-task'
       },
     });
 
@@ -195,4 +196,37 @@ export class BoardComponent {
       console.error('Error updating task status:', error);
     }
   }
+
+  deleteTask(task: any) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: 'fit-content',
+      height: 'fit-content',
+      disableClose: true,
+      autoFocus: false,
+      data: {
+        task: '',
+        purpose: 'deletion'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result = 'confirmed') {
+        this.confirmDeletion(task);
+      }
+    });
+  }
+
+    /**
+   * deleting a task by sending a delete request with the id
+   */
+    async confirmDeletion(task: any) {
+      try {
+        const url = `${environment.baseUrl}/tasks/${task.id}/`;
+        const response = await lastValueFrom(this.http.delete(url));
+        this.sortTasks();
+        this.getTasks();
+      } catch (error) {
+        console.error('Error updating todo:', error);
+      }
+    }
 }

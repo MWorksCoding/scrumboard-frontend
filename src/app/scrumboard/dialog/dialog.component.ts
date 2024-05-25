@@ -52,7 +52,7 @@ date = new FormControl(moment(new Date()).format('DD.MM.YYYY'));
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { task: any }
+    @Inject(MAT_DIALOG_DATA) public data: { task: any, purpose: string}
   ) {  }
 
 
@@ -60,4 +60,7 @@ date = new FormControl(moment(new Date()).format('DD.MM.YYYY'));
     this.dialogRef.close();
   }
 
+  confirmDeletion() {
+    this.dialogRef.close('confirmed');
+  }
 }

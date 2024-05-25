@@ -64,7 +64,7 @@
             [style.background-color]="getCategoryColor(todoTask.category)"
             >{{ getCategoryName(todoTask.category) }}</mat-chip
           >
-          <mat-icon>delete</mat-icon>
+          <mat-icon (click)="deleteTask(todoTask)">delete</mat-icon>
         </div>
         <div class="title-description">
           <mat-card-title>{{ todoTask.title }}</mat-card-title>
@@ -98,7 +98,7 @@
                 [style.background-color]="getCategoryColor(inProgressTask.category)"
                 >{{ getCategoryName(inProgressTask.category) }}</mat-chip
               >
-              <mat-icon>delete</mat-icon>
+              <mat-icon (click)="deleteTask(inProgressTask)">delete</mat-icon>
             </div>
             <div class="title-description">
               <mat-card-title>{{ inProgressTask.title }}</mat-card-title>
@@ -133,7 +133,7 @@
                 [style.background-color]="getCategoryColor(awaitingFeedbackTask.category)"
                 >{{ getCategoryName(awaitingFeedbackTask.category) }}</mat-chip
               >
-              <mat-icon>delete</mat-icon>
+              <mat-icon (click)="deleteTask(awaitingFeedbackTask)">delete</mat-icon>
             </div>
             <div class="title-description">
               <mat-card-title>{{ awaitingFeedbackTask.title }}</mat-card-title>
@@ -167,7 +167,7 @@
                 [style.background-color]="getCategoryColor(doneTask.category)"
                 >{{ getCategoryName(doneTask.category) }}</mat-chip
               >
-              <mat-icon>delete</mat-icon>
+              <mat-icon (click)="deleteTask(doneTask)">delete</mat-icon>
             </div>
             <div class="title-description">
               <mat-card-title>{{ doneTask.title }}</mat-card-title>

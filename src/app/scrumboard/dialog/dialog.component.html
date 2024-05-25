@@ -1,4 +1,5 @@
 <div class="dialog">
+    @if (data.purpose == 'new-task') {
     <div class="header-icon">
         <h1>Add Task</h1>
         <mat-icon fontIcon="close" class="numbers-icons" (click)="closeDialog()"></mat-icon>
@@ -68,4 +69,17 @@
             Cancel
         </button>
     </div>
+    } @if (data.purpose == 'deletion') {
+        <div class="header-icon">
+            <h1>Do you really want to delete this task?</h1>
+        </div>
+        <div class="header-icon" style="margin-top: 32px;">
+            <button mat-raised-button color="primary" type="submit" class="create-task-button" (click)="confirmDeletion()">
+                Confirm
+            </button>
+            <button mat-raised-button color="primary" class="cancel-button" (click)="closeDialog()">
+                Cancel
+            </button>
+        </div>
+    }
 </div>
