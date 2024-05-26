@@ -17,7 +17,7 @@
         mat-raised-button
         color="primary"
         class="add-task-button"
-        (click)="openDialog()"
+        (click)="addNewTask('blank')"
       >
         Add Task
       </button>
@@ -29,7 +29,7 @@
       <mat-icon
         fontIcon="add"
         class="numbers-icons"
-        (click)="openDialog()"
+        (click)="addNewTask('todo')"
       ></mat-icon>
     </div>
     <div class="header-icon">
@@ -37,7 +37,7 @@
       <mat-icon
         fontIcon="add"
         class="numbers-icons"
-        (click)="openDialog()"
+        (click)="addNewTask('in-progress')"
       ></mat-icon>
     </div>
     <div class="header-icon">
@@ -45,7 +45,7 @@
       <mat-icon
         fontIcon="add"
         class="numbers-icons"
-        (click)="openDialog()"
+        (click)="addNewTask('await-feedback')"
       ></mat-icon>
     </div>
     <div class="header-icon">
@@ -53,12 +53,12 @@
       <mat-icon
         fontIcon="add"
         class="numbers-icons"
-        (click)="openDialog()"
+        (click)="addNewTask('done')"
       ></mat-icon>
     </div>
     <mat-card class="board-column" [attr.draggable]="true" (dragover)="onTaskDragOver($event)" (drop)="onTaskDrop($event, 'todo')">
       @for (todoTask of todoTasks; track todoTask) {
-        <mat-card class="task-card" [attr.draggable]="true" (dragstart)="onTaskDragStart($event, todoTask)">
+        <mat-card class="task-card" [attr.draggable]="true" (dragstart)="onTaskDragStart($event, todoTask)" (click)="openTask(todoTask)">
         <div class="category-trash">
           <mat-chip
             [style.background-color]="getCategoryColor(todoTask.category)"
@@ -92,7 +92,7 @@
     </mat-card>
     <mat-card class="board-column" (dragover)="onTaskDragOver($event)" (drop)="onTaskDrop($event, 'in-progress')">
       @for (inProgressTask of inProgressTasks; track inProgressTask) {
-        <mat-card class="task-card" draggable="true" (dragstart)="onTaskDragStart($event, inProgressTask)">
+        <mat-card class="task-card" draggable="true" (dragstart)="onTaskDragStart($event, inProgressTask)" (click)="openTask(inProgressTask)">
             <div class="category-trash">
               <mat-chip
                 [style.background-color]="getCategoryColor(inProgressTask.category)"
@@ -127,7 +127,7 @@
     <mat-card class="board-column" (dragover)="onTaskDragOver($event)" (drop)="onTaskDrop($event, 'await-feedback')">
       @for (awaitingFeedbackTask of awaitingFeedbackTasks; track
       awaitingFeedbackTask) {
-        <mat-card class="task-card" draggable="true" (dragstart)="onTaskDragStart($event, awaitingFeedbackTask)">
+        <mat-card class="task-card" draggable="true" (dragstart)="onTaskDragStart($event, awaitingFeedbackTask)" (click)="openTask(awaitingFeedbackTask)">
             <div class="category-trash">
               <mat-chip
                 [style.background-color]="getCategoryColor(awaitingFeedbackTask.category)"
@@ -161,7 +161,7 @@
     </mat-card>
     <mat-card class="board-column" (dragover)="onTaskDragOver($event)" (drop)="onTaskDrop($event, 'done')">
       @for (doneTask of doneTasks; track doneTask) {
-        <mat-card class="task-card" draggable="true" (dragstart)="onTaskDragStart($event, doneTask)">
+        <mat-card class="task-card" draggable="true" (dragstart)="onTaskDragStart($event, doneTask)" (click)="openTask(doneTask)">
             <div class="category-trash">
               <mat-chip
                 [style.background-color]="getCategoryColor(doneTask.category)"

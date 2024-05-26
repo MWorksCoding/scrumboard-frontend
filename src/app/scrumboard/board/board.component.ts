@@ -32,6 +32,8 @@ export class BoardComponent {
   categories: { id: number, name: string, color: string, email: any, phone:any }[] = [];
   users: { id: number, first_name: string, last_name: string, username: string, color: string , email: string , phone: string }[] = [];
   draggedTask: any;
+  categoryLookup: { [key: number]: string } = {};
+  userLookup: { [key: number]: string } = {};
 
   constructor(public dialog: MatDialog, private router: Router, private http: HttpClient) {}
 
@@ -41,8 +43,8 @@ export class BoardComponent {
    */
     ngOnInit() {
       this.getTasks();
-      this.fetchUsers();
-      this.fetchCategories();
+      this.getUsers();
+      this.getCategories();
     }
 
       /**
@@ -53,7 +55,6 @@ export class BoardComponent {
       const url = environment.baseUrl + '/tasks/';
       const response = await lastValueFrom(this.http.get(url));
       this.tasks = response as any[];
-      console.log('tasks in Board:', this.tasks);
       this.sortTasks();
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -67,14 +68,14 @@ export class BoardComponent {
   }
 
 
-  openDialog() {
+  addNewTask(status: string) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: 'fit-content',
       height: 'fit-content',
       disableClose: true,
       autoFocus: false,
       data: {
-        task: 'Task1',
+        task: status,
         purpose: 'new-task'
       },
     });
@@ -89,10 +90,6 @@ export class BoardComponent {
     this.inProgressTasks = this.tasks.filter(task => task.status === 'in-progress');
     this.awaitingFeedbackTasks = this.tasks.filter(task => task.status === 'await-feedback');
     this.doneTasks = this.tasks.filter(task => task.status === 'done');
-    console.log('this.todoTasks', this.todoTasks)
-    console.log('this.inProgressTasks', this.inProgressTasks)
-    console.log('this.awaitingFeedbackTasks', this.awaitingFeedbackTasks)
-    console.log('this.doneTasks', this.doneTasks)
   }
 
 
@@ -100,34 +97,15 @@ export class BoardComponent {
     return moment(date).format('DD.MM.YYYY');
   }
 
-
-    /**
-   * Get all tasks from backend
-   */
-    async fetchTasks() {
-      try {
-        const url = environment.baseUrl + '/tasks/';
-        const response = await lastValueFrom(this.http.get(url));
-        let tasks = response as any[];
-        console.log('tasks' , tasks)
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    }
-  
-
-    categoryLookup: { [key: number]: string } = {};
-    userLookup: { [key: number]: string } = {};
   
     /**
      * Get all categories from backend
      */
-    async fetchCategories() {
+    async getCategories() {
       try {
         const url = environment.baseUrl + '/categories/';
         const response = await lastValueFrom(this.http.get(url));
         this.categories = response as any[];
-        console.log('this.categories in board:' , this.categories)
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -137,12 +115,11 @@ export class BoardComponent {
       /**
    * Get all available users from backend
    */
-      async fetchUsers() {
+      async getUsers() {
         try {
           const url = environment.baseUrl + '/users/';
           const response = await lastValueFrom(this.http.get(url));
           this.users = response as any[];
-          console.log('this.users in board:' , this.users)
         } catch (error) {
           console.error('Error fetching users:', error);
         }
@@ -182,16 +159,18 @@ export class BoardComponent {
     event.preventDefault();
     if (this.draggedTask) {
       this.draggedTask.status = status;
-      await this.updateTaskStatus(this.draggedTask);
+      await this.updateTask(this.draggedTask);
       this.sortTasks();
       this.draggedTask = null;
     }
   }
 
-  async updateTaskStatus(task: any) {
+  async updateTask(task: any) {
+    console.log('updateTask:' , task)
     try {
       const url = `${environment.baseUrl}/tasks/${task.id}/`;
       await lastValueFrom(this.http.put(url, task));
+      this.getTasks();
     } catch (error) {
       console.error('Error updating task status:', error);
     }
@@ -229,4 +208,25 @@ export class BoardComponent {
         console.error('Error updating todo:', error);
       }
     }
+
+
+    openTask(task: any) {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: 'fit-content',
+        height: 'fit-content',
+        disableClose: true,
+        autoFocus: false,
+        data: {
+          task: task,
+          purpose: 'edit-task'
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((updatedData) => {
+        if (updatedData) {
+          this.updateTask(updatedData);
+        }
+      });
+    }
+
 }

@@ -66,16 +66,16 @@ export class AddTaskComponent {
    * Initialization
    */
   ngOnInit() {
-    this.fetchCategories();
-    this.fetchUsers();
-    this.fetchTasks()
+    this.getCategories();
+    this.getUsers();
+    this.getTasks()
   }
 
 
   /**
    * Get all tasks from backend
    */
-  async fetchTasks() {
+  async getTasks() {
     try {
       const url = environment.baseUrl + '/tasks/';
       const response = await lastValueFrom(this.http.get(url));
@@ -90,7 +90,7 @@ export class AddTaskComponent {
   /**
    * Get all categories from backend
    */
-  async fetchCategories() {
+  async getCategories() {
     try {
       const url = environment.baseUrl + '/categories/';
       const response = await lastValueFrom(this.http.get(url));
@@ -104,7 +104,7 @@ export class AddTaskComponent {
   /**
    * Get all available users from backend
    */
-  async fetchUsers() {
+  async getUsers() {
     try {
       const url = environment.baseUrl + '/users/';
       const response = await lastValueFrom(this.http.get(url));
