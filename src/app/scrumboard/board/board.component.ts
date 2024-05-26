@@ -80,8 +80,10 @@ export class BoardComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'task-added') {
+        this.getTasks();
+      }
     });
   }
 
@@ -176,7 +178,8 @@ export class BoardComponent {
     }
   }
 
-  deleteTask(task: any) {
+  deleteTask(event: Event, task: any) {
+    event.stopPropagation();
     const dialogRef = this.dialog.open(DialogComponent, {
       width: 'fit-content',
       height: 'fit-content',

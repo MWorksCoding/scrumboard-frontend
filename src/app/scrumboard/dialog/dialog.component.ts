@@ -68,6 +68,7 @@ export class DialogComponent {
   priority = '';
   user: any = '';
   id: number = 0;
+  status: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
@@ -85,21 +86,15 @@ export class DialogComponent {
       await this.getTasks();
     }
     if (this.data.purpose == 'new-task') {
-      this.title = this.data?.task?.title 
-      this.description = this.data?.task?.description
-      this.category = this.getCategoryName(this.data?.task?.category)
-      this.priority = this.data?.task?.priority 
-      this.user = this.getUserName(this.data?.task?.assigned_to)
-      this.id = this.data?.task?.id
-      this.date.setValue(moment(this.data?.task?.due_date));
+      this.status = this.data.task;
     }
     if (this.data.purpose == 'edit-task') {
-      this.title = this.data?.task?.title 
-      this.description = this.data?.task?.description
-      this.category = this.getCategoryName(this.data?.task?.category)
-      this.priority = this.data?.task?.priority 
-      this.user = this.getUserName(this.data?.task?.assigned_to)
-      this.id = this.data?.task?.id
+      this.title = this.data?.task?.title;
+      this.description = this.data?.task?.description;
+      this.category = this.getCategoryName(this.data?.task?.category);
+      this.priority = this.data?.task?.priority;
+      this.user = this.getUserName(this.data?.task?.assigned_to);
+      this.id = this.data?.task?.id;
       this.date.setValue(moment(this.data?.task?.due_date));
     }
   }
@@ -164,25 +159,36 @@ export class DialogComponent {
     this.dialogRef.close(updatedTask);
   }
 
-
   /**
    * Post a new Task to backend
    */
   async addTask() {
     try {
       const url = environment.baseUrl + '/tasks/';
-      const body = {
-        title: this.title,
-        description: this.description,
-        due_date: moment(this.date.value).format('YYYY-MM-DD'),
-        category: this.category.id,
-        priority: this.priority,
-        assigned_to: [this.user.id] 
-      };
-      console.log('bodydata:', body);
+      let body;
+      if (this.status == 'blank') {
+        body = {
+          title: this.title,
+          description: this.description,
+          due_date: moment(this.date.value).format('YYYY-MM-DD'),
+          category: this.category.id,
+          priority: this.priority,
+          assigned_to: [this.user.id],
+        };
+      } else {
+        body = {
+          title: this.title,
+          description: this.description,
+          due_date: moment(this.date.value).format('YYYY-MM-DD'),
+          category: this.category.id,
+          priority: this.priority,
+          assigned_to: [this.user.id],
+          status: this.status
+        };
+      }
       const response = await lastValueFrom(this.http.post(url, body));
       this.clearInputFields();
-      this.dialogRef.close('task-added')
+      this.dialogRef.close('task-added');
     } catch (error) {
       console.error('Error creating a new task:', error);
     }
@@ -198,12 +204,12 @@ export class DialogComponent {
   }
 
   getCategoryName(categoryId: number): any {
-    const category = this.categories.find(cat => cat.id === categoryId);
+    const category = this.categories.find((cat) => cat.id === categoryId);
     return category ? category : '';
   }
 
   getUserName(userId: any): any {
-    const user = this.users.find(u => u.id === userId[0]);
+    const user = this.users.find((u) => u.id === userId[0]);
     return user ? user : '';
   }
 }

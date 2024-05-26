@@ -108,6 +108,9 @@
     width: 32px;
     font-size: 32px;
     cursor: pointer;
+    &:hover {
+      color: #29abe2;
+    }
   }
   mat-chip{
     height: 40px;

@@ -2,6 +2,18 @@
   @if (data.purpose == 'new-task') {
   <div class="header-icon">
     <h1>Add Task</h1>
+    @if (data.task == 'todo') {
+      <h1> with status To Do</h1>
+    }
+    @if (data.task == 'in-progress') {
+      <h1> with status In Progress</h1>
+    }
+    @if (data.task == 'await-feedback') {
+      <h1> with status Awaiting Feedback</h1>
+    }
+    @if (data.task == 'done') {
+      <h1> with status Done</h1>
+    }
     <mat-icon
       fontIcon="close"
       class="numbers-icons"
