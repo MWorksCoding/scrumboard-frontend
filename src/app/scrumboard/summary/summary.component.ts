@@ -55,7 +55,6 @@ export class SummaryComponent {
       const url = environment.baseUrl + '/tasks/';
       const response = await lastValueFrom(this.http.get(url));
       this.tasks = response as any[];
-      console.log('tasks:', this.tasks);
       this.countStatus();
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -83,28 +82,32 @@ export class SummaryComponent {
     }
   }
 
-
-
+  /**
+   * Finds the task with the nearest due date and sets the nearest due date and its priority.
+   * Iterates over the list of tasks, comparing their due dates to find the nearest one
+   * that is still in the future. It also counts the number of tasks with each priority
+   * for the nearest due date.
+   */
   findNearestdate() {
     let nearestDate: any = null;
-    let priorityCounts: { [key: string]: number } = { high: 0, medium: 0, low: 0 };
-
-    this.tasks.forEach(task => {
+    let priorityCounts: { [key: string]: number } = {
+      high: 0,
+      medium: 0,
+      low: 0,
+    };
+    this.tasks.forEach((task) => {
       const dueDate = new Date(task.due_date);
       const today = new Date();
-  
       if (!nearestDate || (dueDate > today && dueDate < nearestDate)) {
         nearestDate = dueDate;
         this.nearestDueDate = task.due_date;
-        // Reset the priority counts for the new nearest date
         priorityCounts = { high: 0, medium: 0, low: 0 };
       }
-  
       if (nearestDate && task.due_date === this.nearestDueDate) {
-        priorityCounts[task.priority] = (priorityCounts[task.priority] || 0) + 1;
+        priorityCounts[task.priority] =
+          (priorityCounts[task.priority] || 0) + 1;
       }
     });
-
     if (priorityCounts['high'] > 0) {
       this.nearestDueDatePriority = 'high';
       this.highestPriorityCount = priorityCounts['high'];
@@ -115,19 +118,22 @@ export class SummaryComponent {
       this.nearestDueDatePriority = 'low';
       this.highestPriorityCount = priorityCounts['low'];
     }
-
     this.nearestDueDate = moment(this.nearestDueDate).format('DD.MM.YYYY');
-    
-    console.log('nearestDueDate:', this.nearestDueDate);
-    console.log('nearestDueDatePriority:', this.nearestDueDatePriority);
-    console.log('highestPriorityCount:', this.highestPriorityCount);
   }
 
-
+  /**
+   * Redirects the user to the dashboard page.
+   * Uses Angular's Router to navigate to the '/scrumboard/board' URL.
+   */
   redirectToDashboard() {
     this.router.navigateByUrl('/scrumboard/board');
   }
 
+  /**
+   * Sets the greeting message based on the current time of day.
+   * Determines the current hour and sets the greeting message to
+   * 'Good morning', 'Good afternoon', or 'Good evening' accordingly.
+   */
   setGreeting() {
     const now = new Date();
     const hour = now.getHours();
@@ -141,6 +147,10 @@ export class SummaryComponent {
     }
   }
 
+  /**
+   * Retrieves the username from local storage.
+   * Fetches the username stored in the local storage under the key 'username'.
+   */
   getUsername() {
     return localStorage.getItem('username');
   }

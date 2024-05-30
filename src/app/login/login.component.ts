@@ -4,9 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../auth.service';
-import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   animate,
@@ -15,7 +15,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-
 
 @Component({
   selector: 'app-login',
@@ -55,16 +54,8 @@ export class LoginComponent {
   wrongEmail: boolean = false;
   wrongEntries: boolean = false;
   rememberMe: boolean = false;
-  // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  // passwordFormControl = new FormControl('', [Validators.required]);
 
-
-  constructor(
-    private router: Router,
-    private auth: AuthService,
-  ) {
-  }
-
+  constructor(private router: Router, private auth: AuthService) {}
 
   /**
    * Communication to backend
@@ -80,7 +71,7 @@ export class LoginComponent {
       );
       this.loading = false;
       localStorage.setItem('token', resp.token);
-      localStorage.setItem('username', resp.username); 
+      localStorage.setItem('username', resp.username);
       this.router.navigateByUrl('/scrumboard/summary');
     } catch (e) {
       this.loading = false;
@@ -88,7 +79,6 @@ export class LoginComponent {
       console.error(e);
     }
   }
-
 
   /**
    * shows the loading screen
@@ -100,7 +90,6 @@ export class LoginComponent {
     }
   }
 
-
   /**
    * hides the loading screen
    */
@@ -110,7 +99,6 @@ export class LoginComponent {
       loadingScreen.style.display = 'none';
     }
   }
-
 
   /**
    * shows sign up card, hides all other cards
@@ -123,7 +111,6 @@ export class LoginComponent {
     }, 500);
   }
 
-
   /**
    * shows login card, hides all other cards
    */
@@ -134,7 +121,6 @@ export class LoginComponent {
       this.loginCard = true;
     }, 500);
   }
-
 
   /**
    * shows forgot password card, hides all other cards

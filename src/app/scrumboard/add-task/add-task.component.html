@@ -2,7 +2,6 @@
   <div class="header-icon">
     <h1>Add Task</h1>
   </div>
-  <form (ngSubmit)="addTask()">
     <mat-card class="input-grid">
       <div class="grid-left-right">
         <mat-form-field>
@@ -92,13 +91,13 @@
         color="primary"
         type="submit"
         class="create-task-button"
+        (click)="addTask()"
       >
         Create Task
       </button>
 
-      <button mat-raised-button color="primary" class="cancel-button">
+      <button mat-raised-button color="primary" class="cancel-button" (click)="clearInputFields()">
         Clear all entries
       </button>
     </div>
-  </form>
 </div>

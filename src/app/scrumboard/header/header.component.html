@@ -1,21 +1,25 @@
-    <mat-toolbar class="title-icons">
-        <div class="title">Kanban Project Management Tool</div>
-        <div class="icons">
-            <a [routerLink]="'/scrumboard/about'" mat-tab-link title="About Join"><mat-icon fontIcon="help"></mat-icon></a>
-
-
-            <button mat-icon-button [matMenuTriggerFor]="menu" title="User settings & Logout">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item title="User settings" (click)="showUserSettings()">
-                    <mat-icon>account_circle</mat-icon>
-                    <span>User settings</span>
-                </button>
-                <button mat-menu-item title="User settings" (click)="showLogout()">
-                    <mat-icon>logout</mat-icon>
-                    <span>Logout</span>
-                </button>
-              </mat-menu>
-        </div>
-    </mat-toolbar>
+<mat-toolbar class="title-icons">
+  <div class="title">Kanban Project Management Tool</div>
+  <div class="icons">
+    <a [routerLink]="'/scrumboard/about'" mat-tab-link title="About Join"
+      ><mat-icon fontIcon="help"></mat-icon
+    ></a>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      title="User settings & Logout"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item title="User settings" (click)="showUserSettings()">
+        <mat-icon>account_circle</mat-icon>
+        <span>User settings</span>
+      </button>
+      <button mat-menu-item title="User settings" (click)="showLogout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

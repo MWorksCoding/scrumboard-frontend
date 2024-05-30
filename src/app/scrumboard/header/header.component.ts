@@ -27,12 +27,19 @@ import { AuthService } from '../../auth.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  
   constructor(private router: Router, private auth: AuthService) {}
 
+  /**
+   * Redirect to user settings
+   */
   showUserSettings() {
     this.router.navigateByUrl('/scrumboard/user-settings');
   }
 
+  /**
+   * Redirect to logout
+   */
   showLogout() {
     this.router.navigateByUrl('/logout');
   }

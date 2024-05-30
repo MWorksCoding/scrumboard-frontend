@@ -1,16 +1,27 @@
-    <mat-toolbar class="menu">
-        <div class="menu-img"> 
-            <img style="height: 100px" src="../../assets/img/join-logo.png" />
-        </div>
-        <div class="menu-links">
-            <a [routerLink]="'/scrumboard/summary'" mat-tab-link > <mat-icon fontIcon="dashboard"></mat-icon> Summary </a>
-            <a [routerLink]="'/scrumboard/board'" mat-tab-link> <mat-icon fontIcon="view_column"></mat-icon> Board </a>
-            <a [routerLink]="'/scrumboard/add-task'" mat-tab-link> <mat-icon fontIcon="edit_square"></mat-icon>Add Task </a>
-            <a [routerLink]="'/scrumboard/contacts'" mat-tab-link> <mat-icon fontIcon="contacts"></mat-icon> Contacts </a>
-        </div>
-        <div class="privacy-legal-notice">
-            <a [routerLink]="'/scrumboard/legal-notice'" mat-tab-link> <mat-icon fontIcon="info"></mat-icon> Legal notice </a>
-            <a [routerLink]="'/scrumboard/privacy'" mat-tab-link> <mat-icon fontIcon="info"></mat-icon> Privacy </a>
-        </div>
-
-    </mat-toolbar>
+<mat-toolbar class="menu">
+  <div class="menu-img">
+    <img style="height: 100px" src="../../assets/img/join-logo.png" />
+  </div>
+  <div class="menu-links">
+    <a [routerLink]="'/scrumboard/summary'" mat-tab-link>
+      <mat-icon fontIcon="dashboard"></mat-icon> Summary
+    </a>
+    <a [routerLink]="'/scrumboard/board'" mat-tab-link>
+      <mat-icon fontIcon="view_column"></mat-icon> Board
+    </a>
+    <a [routerLink]="'/scrumboard/add-task'" mat-tab-link>
+      <mat-icon fontIcon="edit_square"></mat-icon>Add Task
+    </a>
+    <a [routerLink]="'/scrumboard/contacts'" mat-tab-link>
+      <mat-icon fontIcon="contacts"></mat-icon> Contacts
+    </a>
+  </div>
+  <div class="privacy-legal-notice">
+    <a [routerLink]="'/scrumboard/legal-notice'" mat-tab-link>
+      <mat-icon fontIcon="info"></mat-icon> Legal notice
+    </a>
+    <a [routerLink]="'/scrumboard/privacy'" mat-tab-link>
+      <mat-icon fontIcon="info"></mat-icon> Privacy
+    </a>
+  </div>
+</mat-toolbar>

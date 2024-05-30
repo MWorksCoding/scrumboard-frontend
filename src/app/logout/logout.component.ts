@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../environments/environments';
 import { Router } from '@angular/router';
 import {
@@ -47,41 +47,40 @@ import { lastValueFrom } from 'rxjs';
 })
 export class LogoutComponent {
   error: string = '';
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-  ) { }
+  constructor(private router: Router, private http: HttpClient) {}
 
   /**
    * Initialization / activate dark mode
    */
   ngOnInit(): void {
-    this.logout()
+    this.logout();
   }
 
-    /**
+  /**
    * Logout and delete users token
    */
-    async logout() {
-      try {
-        const url = environment.baseUrl + '/logout/';
-        let headers = new HttpHeaders();
-        headers = headers.set(
-          'Authorization',
-          'Token' + localStorage.getItem('token')
-        ); 
-        console.log('headers ', headers)
-        await lastValueFrom(this.http.post(url, {}, { headers }));
+  async logout() {
+    try {
+      const url = environment.baseUrl + '/logout/';
+      let headers = new HttpHeaders();
+      headers = headers.set(
+        'Authorization',
+        'Token' + localStorage.getItem('token')
+      );
+      console.log('headers ', headers);
+      await lastValueFrom(this.http.post(url, {}, { headers }));
 
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-      } catch (e) {
-        this.error = 'Error while logging out';
-      }
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+    } catch (e) {
+      this.error = 'Error while logging out';
     }
+  }
 
+  /**
+   * Redirect to login
+   */
   showLogin() {
     this.router.navigateByUrl('/login');
   }
-
 }

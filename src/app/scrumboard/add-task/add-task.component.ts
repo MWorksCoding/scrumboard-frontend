@@ -29,8 +29,6 @@ const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  // providers: [provideMomentDateAdapter()],
-  // providers: [{provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
   providers: [provideNativeDateAdapter()],
   imports: [
     MatButtonModule,
@@ -48,12 +46,23 @@ const moment = _rollupMoment || _moment;
   styleUrl: './add-task.component.scss',
 })
 export class AddTaskComponent {
-  // date = new FormControl(moment(new Date()).format('DD.MM.YYYY'));
   date = new FormControl();
-  categories: { id: number, name: string, color: string, email: any, phone:any }[] = [];
-  // users: { id: number, first_name: string, last_name: string, username: string, color: string }[] = [];
-  users: { id: number, first_name: string, last_name: string, username: string, color: string , email: string , phone: string }[] = [];
-
+  categories: {
+    id: number;
+    name: string;
+    color: string;
+    email: any;
+    phone: any;
+  }[] = [];
+  users: {
+    id: number;
+    first_name: string;
+    last_name: string;
+    username: string;
+    color: string;
+    email: string;
+    phone: string;
+  }[] = [];
   title = '';
   description = '';
   category: any = '';
@@ -68,9 +77,8 @@ export class AddTaskComponent {
   ngOnInit() {
     this.getCategories();
     this.getUsers();
-    this.getTasks()
+    this.getTasks();
   }
-
 
   /**
    * Get all tasks from backend
@@ -80,12 +88,10 @@ export class AddTaskComponent {
       const url = environment.baseUrl + '/tasks/';
       const response = await lastValueFrom(this.http.get(url));
       let tasks = response as any[];
-      console.log('tasks' , tasks)
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
   }
-
 
   /**
    * Get all categories from backend
@@ -99,7 +105,6 @@ export class AddTaskComponent {
       console.error('Error fetching categories:', error);
     }
   }
-  
 
   /**
    * Get all available users from backend
@@ -109,31 +114,15 @@ export class AddTaskComponent {
       const url = environment.baseUrl + '/users/';
       const response = await lastValueFrom(this.http.get(url));
       this.users = response as any[];
-      console.log('this.users', this.users)
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   }
 
-
   /**
    * Post a new Task to backend
    */
   async addTask() {
-    console.log(
-      'this.title:',
-      this.title,
-      'this.description:',
-      this.description,
-      'this.category:',
-      this.category,
-      'priority:',
-      this.priority,
-      'assigned_to:',
-      this.user,
-      'due_date',
-      moment(this.date.value).format('YYYY-MM-DD')
-    );
     try {
       const url = environment.baseUrl + '/tasks/';
       const body = {
@@ -142,9 +131,8 @@ export class AddTaskComponent {
         due_date: moment(this.date.value).format('YYYY-MM-DD'),
         category: this.category,
         priority: this.priority,
-        assigned_to: [this.user.id] 
+        assigned_to: [this.user.id],
       };
-      console.log('body', body);
       const response = await lastValueFrom(this.http.post(url, body));
       this.clearInputFields();
     } catch (error) {
@@ -152,6 +140,9 @@ export class AddTaskComponent {
     }
   }
 
+  /**
+   * Empty all input fields
+   */
   clearInputFields() {
     this.title = '';
     this.description = '';

@@ -1,50 +1,91 @@
 <div class="user-settings">
-    <div class="header-icon">
-        <h1>User settings</h1>
-    </div>
+  <div class="header-icon">
+    <h1>User settings</h1>
+  </div>
 
-    <mat-card class="input-grid">
-        <div class="grid-left-right">
-            <mat-form-field>
-                <mat-label>First name</mat-label>
-                <input matInput type="text" name="firstname" placeholder="Enter your first name" title="Enter your first name">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>User name</mat-label>
-                <input matInput type="text" name="username" placeholder="Change your user name"
-                    title="Change your user name" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Password</mat-label>
-                <input matInput type="password" name="username" placeholder="Change your password"
-                    title="Change your password" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Confirm Password</mat-label>
-                <input matInput type="password" name="username" placeholder="Confirm your password" disabled
-                    title="Confirm your password" required>
-            </mat-form-field>
-        </div>
-        <div class="grid-left-right">
-            <mat-form-field>
-                <mat-label>Family name</mat-label>
-                <input matInput type="text" name="familyname" placeholder="Enter your family name"
-                    title="Enter your family name">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Phone number</mat-label>
-                <input matInput type="number" name="phone" placeholder="Enter your phone number" title="Enter your phone number">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Email adress</mat-label>
-                <input matInput type="email" name="email" placeholder="Change your user email adress"
-                    title="Change your user email adress" required>
-            </mat-form-field>
-        </div>
-    </mat-card>
-    <div class="header-icon" style="margin-top: 32px;">
-        <button mat-raised-button color="primary" type="submit" class="create-task-button">
-            Save changes
-        </button>
+  <mat-card class="input-grid">
+    <div class="grid-left-right">
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="firstname"
+          placeholder="Enter your first name"
+          title="Enter your first name"
+          [(ngModel)]="firstName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>User name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="username"
+          placeholder="Change your user name"
+          title="Change your user name"
+          required
+          [(ngModel)]="username"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Color</mat-label>
+        <mat-select
+          name="color"
+          [(ngModel)]="color"
+          required
+          [ngStyle]="{ color: color }"
+        >
+          @for (color of colors; track color) {
+          <mat-option
+            [value]="color.value"
+            [ngStyle]="{ 'background-color': color.value }"
+            >{{ color.value }}</mat-option
+          >
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
+    <div class="grid-left-right">
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="lastname"
+          placeholder="Enter your last name"
+          title="Enter your last name"
+          [(ngModel)]="lastName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Phone number</mat-label>
+        <input
+          matInput
+          type="tel"
+          name="phone"
+          placeholder="Enter your phone number"
+          title="Enter your phone number"
+          [(ngModel)]="phone"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email address</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          placeholder="Change your email address"
+          title="Change your email address"
+          required
+          [(ngModel)]="email"
+        />
+      </mat-form-field>
+    </div>
+  </mat-card>
+  <div class="header-icon" style="margin-top: 32px">
+    <button mat-raised-button color="primary" type="submit" class="create-task-button" (click)="saveChanges()">
+        Save changes
+      </button>
+  </div>
 </div>
