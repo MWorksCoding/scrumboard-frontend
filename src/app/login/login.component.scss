@@ -99,7 +99,7 @@
 }
 
 .login-card-div {
-  width: 500px;
+  // width: 500px;
 }
 
 .login-headline {
@@ -179,11 +179,33 @@
 
 .arrow-back-icon{
   position: fixed;
-  padding: 32px;
   font-size: 32px;
+  cursor: pointer;
+  margin: 32px;
+  height: 32px;
+  width: 32px;
 }
 
 .forgot-password-text{
   cursor: pointer;
   color: #29abe2;
+}
+
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 16px;
+  padding: 16px;
+  min-width: 600px;
+
+  mat-form-field {
+      width: 100%;
+  }
+}
+
+.grid-left-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

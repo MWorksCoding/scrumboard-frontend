@@ -5,27 +5,30 @@
   @if (loginCard) {
   <div class="text-signup" [@fadeInOut]>
     <div class="m-16">Not a Join user?</div>
-    <button mat-raised-button color="primary" type="submit" class="submit-button" (click)="showSignupCard()">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="submit-button"
+      (click)="showSignupCard()"
+    >
       Sign up
     </button>
   </div>
   }
 </div>
 
+
+
+
 @if (loginCard) {
 <div class="login-card" [@fadeInOut]>
   <mat-card class="login-card-div">
-    <form (ngSubmit)="login()">
+
       <mat-card-header class="m-32">
         <mat-card-title class="login-headline p-32">Log in</mat-card-title>
       </mat-card-header>
-
       <div class="login-input-fields">
-        <!-- <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput type="email" name="email" [formControl]="emailFormControl" placeholder="Please enter your email adress" title="Please enter your email adress">
-        </mat-form-field> -->
-
         <mat-form-field>
           <mat-label>Username</mat-label>
           <input
@@ -38,12 +41,6 @@
             title="Please enter your email adress"
           />
         </mat-form-field>
-
-        <!-- <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password" name="password" [formControl]="passwordFormControl" placeholder="Please enter your password" title="Please enter your password">
-        </mat-form-field> -->
-
         <mat-form-field>
           <mat-label>Password</mat-label>
           <input
@@ -57,37 +54,32 @@
           />
         </mat-form-field>
       </div>
-
-      <!-- <div class="login-input-fields" style="padding: 0px 16px 16px 16px;">
-        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-          <mat-error>Please enter a valid email address</mat-error>
-        }
-        @if (emailFormControl.hasError('required')) {
-          <mat-error>Email is <strong>required</strong></mat-error>
-        }
-        @if (passwordFormControl.hasError('password') && !passwordFormControl.hasError('required')) {
-          <mat-error>Please enter your password</mat-error>
-        }
-        @if (passwordFormControl.hasError('required')) {
-          <mat-error>Password is <strong>required</strong></mat-error>
-        }
-      </div> -->
-
-
-      <div class="login-input-fields" style="padding: 0px 16px 16px 16px;">
+      <div class="login-input-fields" style="padding: 0px 16px 16px 16px">
         <mat-checkbox class="" [checked]="rememberMe">Remember me</mat-checkbox>
-        <span class="forgot-password-text" (click)="showForgotPasswordCard()">Forgot my password</span>
+        <span class="forgot-password-text" (click)="showForgotPasswordCard()"
+          >Forgot my password</span
+        >
       </div>
-
       <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" class="submit-button">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          (click)="login()"
+        >
           Login
         </button>
-        <button mat-raised-button color="primary" type="submit" class="guest-button">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="guest-button"
+          (click)="guestLogin()"
+        >
           Guest Login
         </button>
       </mat-card-actions>
-    </form>
     <div class="warning-message">
       @if (failedLogin) {
       <div>Login failed, please try again!</div>
@@ -98,70 +90,187 @@
 } @if (signupCard) {
 <div class="login-card" [@fadeInOut]>
   <mat-card class="login-card-div">
-    <form (ngSubmit)="login()">
-      <mat-icon fontIcon="arrow_back" (click)="showLoginCard()" class="arrow-back-icon"></mat-icon>
-      <mat-card-header class="m-32">
-        <mat-card-title class="login-headline p-32">Sign up</mat-card-title>
-      </mat-card-header>
-
-      <div class="login-input-fields">
+    <mat-icon
+      fontIcon="arrow_back"
+      (click)="showLoginCard()"
+      class="arrow-back-icon"
+    ></mat-icon>
+    <mat-card-header class="m-32">
+      <mat-card-title class="login-headline p-32">Sign up</mat-card-title>
+    </mat-card-header>
+    <div class="input-grid">
+      <div class="grid-left-right">
         <mat-form-field>
-          <mat-label>Username</mat-label>
-          <input matInput type="text" name="username" ngModel="username" required />
+          <mat-label>First name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="firstname"
+            placeholder="Enter your first name"
+            title="Enter your first name"
+            [(ngModel)]="firstName"
+            required
+          />
         </mat-form-field>
-
         <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput type="email" name="email" ngModel="email" required />
+          <mat-label>User name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="username"
+            placeholder="Change your user name"
+            title="Change your user name"
+            required
+            [(ngModel)]="username"
+          />
         </mat-form-field>
-
+        <mat-form-field>
+          <mat-label>Color</mat-label>
+          <mat-select
+            name="color"
+            [(ngModel)]="color"
+            required
+            [ngStyle]="{ color: color }"
+          >
+            @for (color of colors; track color) {
+            <mat-option
+              [value]="color.value"
+              [ngStyle]="{ 'background-color': color.value }"
+              >{{ color.value }}</mat-option
+            >
+            }
+          </mat-select>
+        </mat-form-field>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput type="password" name="password" ngModel="password" required />
+          <input
+            matInput
+            type="password"
+            name="password"
+            placeholder="Enter a password"
+            title="Enter a password"
+            required
+            [(ngModel)]="password"
+          />
         </mat-form-field>
       </div>
+      <div class="grid-left-right">
+        <mat-form-field>
+          <mat-label>Last name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="lastname"
+            placeholder="Enter your last name"
+            title="Enter your last name"
+            [(ngModel)]="lastName"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Phone number</mat-label>
+          <input
+            matInput
+            type="tel"
+            name="phone"
+            placeholder="Enter your phone number"
+            title="Enter your phone number"
+            [(ngModel)]="phone"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email address</mat-label>
+          <input
+            matInput
+            type="email"
+            name="email"
+            placeholder="Change your email address"
+            title="Change your email address"
+            required
+            [(ngModel)]="email"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirm password</mat-label>
+          <input
+            matInput
+            type="password"
+            name="password"
+            placeholder="Confirm your password"
+            title="Confirm your password"
+            required
+            [(ngModel)]="confirmPassword"
+          />
+        </mat-form-field>
+      </div>
+    </div>
 
-      <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" class="submit-button">
-          Sign up
-        </button>
-      </mat-card-actions>
-    </form>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="submit-button"
+        (click)="signUp()"
+      >
+        Sign up
+      </button>
+    </mat-card-actions>
     <div class="warning-message">
       @if (wrongEntries) {
-      <div>Entries are not valid</div>
+      <div>Entries are invalid. Please fill out all input fields</div>
       }
+      @if (wrongPassword) {
+        <div>Password entries do not match!</div>
+        }
+      @if (signUpSuccess) {
+        <div>Thanks for signing up! You will redirect to login page in 5 seconds</div>
+        }
     </div>
   </mat-card>
 </div>
+
+
+
+
 } @if (forgotPasswordCard) {
 <div class="login-card" [@fadeInOut]>
   <mat-card class="login-card-div">
-    <form (ngSubmit)="login()">
-      <mat-icon fontIcon="arrow_back" (click)="showLoginCard()" class="arrow-back-icon"></mat-icon>
+      <mat-icon
+        fontIcon="arrow_back"
+        (click)="showLoginCard()"
+        class="arrow-back-icon"
+      ></mat-icon>
       <mat-card-header class="m-32">
-        <mat-card-title class="login-headline p-32">I forgot my password</mat-card-title>
+        <mat-card-title class="login-headline p-32"
+          >I forgot my password</mat-card-title
+        >
       </mat-card-header>
       <div style="padding: 0px 32px; text-align: center">
-        Don't worry! We will send you an email with the instructions to reset
-        you password.
+        Don't worry! Enter your email address to reset your password.
       </div>
       <div class="login-input-fields">
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput type="email" name="email" ngModel="email" required />
+          <input matInput type="text" name="email" [(ngModel)]="email" required />
         </mat-form-field>
       </div>
 
       <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" class="submit-button">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          (click)="showResetPassword(email)"
+        >
           Reset Password
         </button>
       </mat-card-actions>
-    </form>
     <div class="warning-message">
       @if (wrongEmail) {
-      <div>Email adress doesn't exist</div>
+      <div>Email address doesn't exist</div>
       }
     </div>
   </mat-card>

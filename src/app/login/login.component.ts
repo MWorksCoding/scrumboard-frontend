@@ -8,6 +8,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
+import { environment } from '../../environments/environments';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import {
   animate,
   state,
@@ -15,6 +19,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +28,13 @@ import {
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
     MatIconModule,
     MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -55,7 +62,37 @@ export class LoginComponent {
   wrongEntries: boolean = false;
   rememberMe: boolean = false;
 
-  constructor(private router: Router, private auth: AuthService) {}
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+  phone: number = +49;
+  color: string = 'Choose a color';
+  confirmPassword: string = '';
+  wrongPassword: boolean = false;
+
+  signUpSuccess: boolean = false;
+
+  colors = [
+    { value: '#2ae2bd' },
+    { value: '#e2612a' },
+    { value: '#2a4fe2' },
+    { value: '#e2bd2a' },
+    { value: '#e22a4f' },
+    { value: '#abe22a' },
+    { value: '#e22aab' },
+    { value: '#2ae261' },
+    { value: '#93a2da' },
+    { value: '#78919c' },
+    { value: '#8b8b8b' },
+    { value: '#25b0e6' },
+    { value: '#1fbbce' },
+  ];
+
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private http: HttpClient
+  ) {}
 
   /**
    * Communication to backend
@@ -117,6 +154,8 @@ export class LoginComponent {
   showLoginCard() {
     this.signupCard = false;
     this.forgotPasswordCard = false;
+    this.deleteAllSignUpEntries();
+
     setTimeout(() => {
       this.loginCard = true;
     }, 500);
@@ -132,4 +171,83 @@ export class LoginComponent {
       this.forgotPasswordCard = true;
     }, 500);
   }
+
+  /**
+   * Validates the entries and runs the sign up
+   */
+  async signUp() {
+    if (this.password !== this.confirmPassword) {
+      this.wrongPassword = true;
+      return;
+    }
+
+    const body = {
+      first_name: this.firstName,
+      last_name: this.lastName,
+      username: this.username,
+      email: this.email,
+      phone: this.phone,
+      color: this.color,
+      password: this.password,
+    };
+
+    try {
+      const url = `${environment.baseUrl}/create-user/`;
+      const response = await lastValueFrom(this.http.post<any>(url, body));
+      this.signUpSuccess = true;
+      setTimeout(() => {
+        this.showLoginCard();
+      }, 5000);
+    } catch (error) {
+      console.error('Error creating user:', error);
+      this.wrongEntries = true;
+    }
+  }
+
+  deleteAllSignUpEntries() {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.phone = +49;
+    this.color = 'Choose a color';
+    this.confirmPassword = '';
+    this.username = '';
+  }
+
+  async showResetPassword(email: string) {
+    try {
+      const url = `${environment.baseUrl}/reset-password/${email}/`;  // Ensure trailing slash
+    console.log('Request URL:', url);  // Debugging line
+      const response = await lastValueFrom(this.http.get<any>(url));
+      console.log('response', response);
+    } catch (error) {
+      this.wrongEmail = true;
+      console.error('Error fetching user information:', error);
+    }
+  }
+
+
+
+  /**
+   * Guest Login for demonstration 
+   * saving token to local storage
+   */
+    async guestLogin() {
+      this.failedLogin = false;
+      this.loading = true;
+      try {
+        let resp: any = await this.auth.loginWithUsernameAndPassword(
+          'Guestuser',
+          '12345'
+        );
+        this.loading = false;
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('username', resp.username);
+        this.router.navigateByUrl('/scrumboard/summary');
+      } catch (e) {
+        this.loading = false;
+        this.failedLogin = true;
+        console.error(e);
+      }
+    }
 }
