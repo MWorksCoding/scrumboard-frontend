@@ -209,6 +209,9 @@ export class LoginComponent {
     }
   }
 
+  /**
+   * Delete all entries
+   */
   deleteAllSignUpEntries() {
     this.firstName = '';
     this.lastName = '';
@@ -220,6 +223,9 @@ export class LoginComponent {
     this.username = '';
   }
 
+  /**
+   * Checks, if the email address exists
+   */
   async showResetPassword(email: string) {
     try {
       const url = `${environment.baseUrl}/reset-password/${email}/`;
@@ -260,6 +266,9 @@ export class LoginComponent {
     }
   }
 
+  /**
+   * Changes the user login password 
+   */
   async resetPassword(email: string) {
     this.wrongPasswordEntries = false;
     this.resetPasswordSuccess = false;
@@ -271,7 +280,6 @@ export class LoginComponent {
           password: this.password,
         };
         const response = await lastValueFrom(this.http.put<any>(url, body));
-        console.log('response', response);
         this.resetPasswordSuccess = true;
         setTimeout(() => {
           this.showLoginCard();
