@@ -10,7 +10,7 @@
   background-color: #f6f7f8;
 }
 
-@mixin text-signup($d: flex , $ai: center) {
+@mixin text-signup($d: flex, $ai: center) {
   display: $d;
   align-items: $ai;
 }
@@ -173,11 +173,11 @@
   width: calc(100% - 64px);
 }
 
-.text-signup{
+.text-signup {
   @include text-signup();
 }
 
-.arrow-back-icon{
+.arrow-back-icon {
   position: fixed;
   font-size: 32px;
   cursor: pointer;
@@ -186,11 +186,15 @@
   width: 32px;
 }
 
-.forgot-password-text{
+.forgot-password-text {
   cursor: pointer;
   color: #29abe2;
+  font-size: 16px;
 }
 
+::ng-deep .mdc-form-field>label {
+  font-size: 16px !important;
+}
 
 .input-grid {
   display: grid;
@@ -200,7 +204,7 @@
   min-width: 600px;
 
   mat-form-field {
-      width: 100%;
+    width: 100%;
   }
 }
 
@@ -208,4 +212,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.logo-signup-img {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  transform: translate(-50%, -50%);
+  transition: all 0.75s ease;
+  animation: moveToCorner 0.75s ease forwards;
+
+  &.to-corner {
+    animation: moveToCorner 0.75s ease forwards;
+  }
+}
+
+@keyframes moveToCorner {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 250px;
+  }
+  100% {
+    top: 32px;
+    left: 32px;
+    transform: translate(0, 0);
+    width: 40px;
+    height: 48px;
+  }
+}
+
+.sub-header {
+  padding: 0px 32px;
+  text-align: center;
+  font-size: 18px;
 }

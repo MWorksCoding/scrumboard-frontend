@@ -1,6 +1,6 @@
-<div class="logo-signup" [@fadeInOut]>
+<div class="logo-signup">
   <div>
-    <img style="height: 48px" src="../../assets/img/join.logo-dark.png" />
+    <img class="logo-signup-img" style="height: 48px" src="../../assets/img/join.logo-dark.png" />
   </div>
   @if (loginCard) {
   <div class="text-signup" [@fadeInOut]>
@@ -17,9 +17,6 @@
   </div>
   }
 </div>
-
-
-
 
 @if (loginCard) {
 <div class="login-card" [@fadeInOut]>
@@ -55,7 +52,7 @@
         </mat-form-field>
       </div>
       <div class="login-input-fields" style="padding: 0px 16px 16px 16px">
-        <mat-checkbox class="" [checked]="rememberMe">Remember me</mat-checkbox>
+        <mat-checkbox class="remember-me" [checked]="rememberMe">Remember me</mat-checkbox>
         <span class="forgot-password-text" (click)="showForgotPasswordCard()"
           >Forgot my password</span
         >
@@ -221,11 +218,11 @@
       @if (wrongEntries) {
       <div>Entries are invalid. Please fill out all input fields</div>
       }
-      @if (wrongPassword) {
+      @if (wrongPasswordEntries) {
         <div>Password entries do not match!</div>
         }
       @if (signUpSuccess) {
-        <div>Thanks for signing up! You will redirect to login page in 5 seconds</div>
+        <div>Thanks for signing up! You will redirect to login page in 3 seconds ...</div>
         }
     </div>
   </mat-card>
@@ -247,7 +244,7 @@
           >I forgot my password</mat-card-title
         >
       </mat-card-header>
-      <div style="padding: 0px 32px; text-align: center">
+      <div class="sub-header">
         Don't worry! Enter your email address to reset your password.
       </div>
       <div class="login-input-fields">
@@ -275,4 +272,52 @@
     </div>
   </mat-card>
 </div>
-}
+} @if (resetPasswordCard) {
+  <div class="login-card" [@fadeInOut]>
+    <mat-card class="login-card-div">
+        <mat-icon
+          fontIcon="arrow_back"
+          (click)="showLoginCard()"
+          class="arrow-back-icon"
+        ></mat-icon>
+        <mat-card-header class="m-32">
+          <mat-card-title class="login-headline p-32"
+            >Reset your Password</mat-card-title
+          >
+        </mat-card-header>
+        <div class="sub-header">
+          Change your account password
+        </div>
+        <div class="login-input-fields">
+          <mat-form-field>
+            <mat-label>New password</mat-label>
+            <input matInput type="password" name="password" [(ngModel)]="password" required />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Confirm password</mat-label>
+            <input matInput type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required />
+          </mat-form-field>
+        </div>
+  
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="submit-button"
+            (click)="resetPassword(email)"
+          >
+            Reset Password
+          </button>
+        </mat-card-actions>
+      <div class="warning-message">
+        @if (wrongPasswordEntries) {
+          <div>Password entries do not match!</div>
+          }
+        @if (resetPasswordSuccess) {
+          <div>Changing password succeded! You will redirect to login page in 5 seconds</div>
+          }
+      </div>
+    </mat-card>
+  </div>
+  }

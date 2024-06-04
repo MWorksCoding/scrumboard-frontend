@@ -53,14 +53,17 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   loading: boolean = false;
   failedLogin: boolean = false;
-  username: string = '';
-  password: string = '';
   loginCard: boolean = true;
   signupCard: boolean = false;
   forgotPasswordCard: boolean = false;
   wrongEmail: boolean = false;
   wrongEntries: boolean = false;
   rememberMe: boolean = false;
+  wrongPasswordEntries: boolean = false;
+  resetPasswordCard: boolean = false;
+  resetPasswordSuccess: boolean = false;
+  signUpSuccess: boolean = false;
+  wrongPassword: boolean = false;
 
   firstName: string = '';
   lastName: string = '';
@@ -68,9 +71,8 @@ export class LoginComponent {
   phone: number = +49;
   color: string = 'Choose a color';
   confirmPassword: string = '';
-  wrongPassword: boolean = false;
-
-  signUpSuccess: boolean = false;
+  username: string = '';
+  password: string = '';
 
   colors = [
     { value: '#2ae2bd' },
@@ -154,6 +156,7 @@ export class LoginComponent {
   showLoginCard() {
     this.signupCard = false;
     this.forgotPasswordCard = false;
+    this.resetPasswordCard = false;
     this.deleteAllSignUpEntries();
 
     setTimeout(() => {
@@ -176,31 +179,33 @@ export class LoginComponent {
    * Validates the entries and runs the sign up
    */
   async signUp() {
+    this.wrongPasswordEntries = false;
+    this.wrongEntries = false;
+    this.signUpSuccess = false;
+
     if (this.password !== this.confirmPassword) {
-      this.wrongPassword = true;
-      return;
-    }
-
-    const body = {
-      first_name: this.firstName,
-      last_name: this.lastName,
-      username: this.username,
-      email: this.email,
-      phone: this.phone,
-      color: this.color,
-      password: this.password,
-    };
-
-    try {
-      const url = `${environment.baseUrl}/create-user/`;
-      const response = await lastValueFrom(this.http.post<any>(url, body));
-      this.signUpSuccess = true;
-      setTimeout(() => {
-        this.showLoginCard();
-      }, 5000);
-    } catch (error) {
-      console.error('Error creating user:', error);
-      this.wrongEntries = true;
+      this.wrongPasswordEntries = true;
+    } else {
+      const body = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        username: this.username,
+        email: this.email,
+        phone: this.phone,
+        color: this.color,
+        password: this.password,
+      };
+      try {
+        const url = `${environment.baseUrl}/create-user/`;
+        const response = await lastValueFrom(this.http.post<any>(url, body));
+        this.signUpSuccess = true;
+        setTimeout(() => {
+          this.showLoginCard();
+        }, 3000);
+      } catch (error) {
+        console.error('Error creating user:', error);
+        this.wrongEntries = true;
+      }
     }
   }
 
@@ -211,43 +216,72 @@ export class LoginComponent {
     this.phone = +49;
     this.color = 'Choose a color';
     this.confirmPassword = '';
+    this.password = '';
     this.username = '';
   }
 
   async showResetPassword(email: string) {
     try {
-      const url = `${environment.baseUrl}/reset-password/${email}/`;  // Ensure trailing slash
-    console.log('Request URL:', url);  // Debugging line
+      const url = `${environment.baseUrl}/reset-password/${email}/`;
+      console.log('Request URL:', url);
       const response = await lastValueFrom(this.http.get<any>(url));
-      console.log('response', response);
+      if (response) {
+        this.forgotPasswordCard = false;
+        setTimeout(() => {
+          this.resetPasswordCard = true;
+        }, 500);
+      }
     } catch (error) {
       this.wrongEmail = true;
       console.error('Error fetching user information:', error);
     }
   }
 
-
-
   /**
-   * Guest Login for demonstration 
+   * Guest Login for demonstration
    * saving token to local storage
    */
-    async guestLogin() {
-      this.failedLogin = false;
-      this.loading = true;
-      try {
-        let resp: any = await this.auth.loginWithUsernameAndPassword(
-          'Guestuser',
-          '12345'
-        );
-        this.loading = false;
-        localStorage.setItem('token', resp.token);
-        localStorage.setItem('username', resp.username);
-        this.router.navigateByUrl('/scrumboard/summary');
-      } catch (e) {
-        this.loading = false;
-        this.failedLogin = true;
-        console.error(e);
-      }
+  async guestLogin() {
+    this.failedLogin = false;
+    this.loading = true;
+    try {
+      let resp: any = await this.auth.loginWithUsernameAndPassword(
+        'Guestuser',
+        '12345'
+      );
+      this.loading = false;
+      localStorage.setItem('token', resp.token);
+      localStorage.setItem('username', resp.username);
+      this.router.navigateByUrl('/scrumboard/summary');
+    } catch (e) {
+      this.loading = false;
+      this.failedLogin = true;
+      console.error(e);
     }
+  }
+
+  async resetPassword(email: string) {
+    this.wrongPasswordEntries = false;
+    this.resetPasswordSuccess = false;
+    this.wrongEmail = false;
+    if (this.password === this.confirmPassword) {
+      try {
+        const url = `${environment.baseUrl}/reset-password/${email}/`;
+        const body = {
+          password: this.password,
+        };
+        const response = await lastValueFrom(this.http.put<any>(url, body));
+        console.log('response', response);
+        this.resetPasswordSuccess = true;
+        setTimeout(() => {
+          this.showLoginCard();
+        }, 5000);
+      } catch (error) {
+        this.wrongPasswordEntries = true;
+        console.error('Error fetching user information:', error);
+      }
+    } else {
+      this.wrongPasswordEntries = true;
+    }
+  }
 }
