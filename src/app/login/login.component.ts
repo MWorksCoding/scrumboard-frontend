@@ -64,6 +64,7 @@ export class LoginComponent {
   resetPasswordSuccess: boolean = false;
   signUpSuccess: boolean = false;
   wrongPassword: boolean = false;
+  wrongEmailValidation: boolean = false;
 
   firstName: string = '';
   lastName: string = '';
@@ -157,6 +158,8 @@ export class LoginComponent {
     this.signupCard = false;
     this.forgotPasswordCard = false;
     this.resetPasswordCard = false;
+    this.signUpSuccess = false;
+    this.wrongEmailValidation = false;
     this.deleteAllSignUpEntries();
 
     setTimeout(() => {
@@ -181,10 +184,16 @@ export class LoginComponent {
   async signUp() {
     this.wrongPasswordEntries = false;
     this.wrongEntries = false;
+    this.wrongEmailValidation = false;
     this.signUpSuccess = false;
-
+  
+    // Regular expression for basic email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
     if (this.password !== this.confirmPassword) {
       this.wrongPasswordEntries = true;
+    } else if (!emailPattern.test(this.email)) {
+      this.wrongEmailValidation = true;
     } else {
       const body = {
         first_name: this.firstName,

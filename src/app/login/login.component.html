@@ -186,7 +186,8 @@
             title="Change your email address"
             required
             [(ngModel)]="email"
-          />
+            email
+            />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Confirm password</mat-label>
@@ -217,6 +218,9 @@
     <div class="warning-message">
       @if (wrongEntries) {
       <div>Entries are invalid. Please fill out all input fields</div>
+      }
+      @if (wrongEmailValidation) {
+      <div>Entries are invalid. Please fill out all input fields properly</div>
       }
       @if (wrongPasswordEntries) {
         <div>Password entries do not match!</div>
